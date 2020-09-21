@@ -24,14 +24,13 @@ public class solution {
     protected List<String> departmentName;
     private Map<String,List<Position>> jobPositions;
 
-
     private String chromeDriverPath;
     private int departmentSize;
+
     public solution(String chromeDriverPath) {
         this.chromeDriverPath = chromeDriverPath;
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
         option = new ChromeOptions();
-        //option.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors");
         option.setHeadless(true);
         driver = new ChromeDriver(option);
         driver.get("https://www.cermati.com/karir");
@@ -41,15 +40,15 @@ public class solution {
         departmentName = new ArrayList<>();
         jobPositions = new HashMap<>();
 
-
         departmentSize = 0;
     }
 
+    //Scrape text of each element in ul
     private List<String> scrapeElement(List<WebElement> elements){
         List<String> result = new ArrayList<>();
 
         for(WebElement el : elements){
-            String li = /*el.getAttribute("innerHTML");*/el.getText();
+            String li = el.getText();
             result.add(li);
         }
 
@@ -58,6 +57,7 @@ public class solution {
 
     // helper function to scrape Position page
     protected Position scrapePosition(WebDriver wd){
+        //Path to each element in each page
         WebElement jobTitleElement = wd.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/main/h1"));
         WebElement locationElement = wd.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/main/ul/li[1]/span"));
         List<WebElement> descriptionElement = wd.findElements(By.xpath("//*[@id=\"st-jobDescription\"]/div[2]/ul/li"));
@@ -65,16 +65,15 @@ public class solution {
         List<WebElement> preferredQualificationElement = wd.findElements(By.xpath("//*[@id=\"st-qualifications\"]/div[2]/ul[2]/li"));
         List<WebElement> sideColumn = wd.findElements(By.xpath("/html/body/div[2]/div/div/div[2]/aside/div"));
 
+        //get text of each element
         String jobTitle = jobTitleElement.getAttribute("innerHTML");
-        String location = /*locationElement.getAttribute("innerHTML");*/locationElement.getText();
+        String location = locationElement.getText();
         List<String> description = scrapeElement(descriptionElement);
         List<String> qualification = scrapeElement(minimumQualificationElement);
         qualification.addAll(scrapeElement(preferredQualificationElement));
         String jobPoster = "";
 
-        //print
-        //System.out.println(sideColumn.size());
-
+        //check if job poster name exist
         if(sideColumn.size() >= 5){
             WebElement jobPosterElement = wd.findElement(By.xpath("/html/body/div[2]/div/div/div[2]/aside/div[2]/div/div[2]/div/h3"));
             jobPoster = jobPosterElement.getAttribute("innerHTML");
@@ -91,7 +90,9 @@ public class solution {
 
         for(int i = 1; i <= elements.size();i++){
 
-            WebDriver deptDriver = new ChromeDriver(option);
+            ThreadLocal<WebDriver> parallelDriver= new ThreadLocal<>();
+            parallelDriver.set(new ChromeDriver(option));
+            WebDriver deptDriver = parallelDriver.get();
             deptDriver.get("https://www.cermati.com/karir");
             departmentDrivers.add(deptDriver);
 
@@ -112,16 +113,12 @@ public class solution {
     protected void accessPosition(WebDriver wd, int idx) {
         WebElement el = wd.findElement(By.xpath("//*[@id=\"section-vacancies\"]/div/div[1]/ul/li["+idx+"]"));
         el.click();
-       // time.sleep(3);
 
         List<WebElement> elements = driver.findElements(By.xpath("//*[@id=\"tab"+(idx-1)+"\"]/div[2]/div"));
-        int elementsSize = elements.size();
 
         for(WebElement webEl : elements){
             webEl = webEl.findElement(By.tagName("a"));
             String url = webEl.getAttribute("href");
-            System.out.println(url);
-            System.out.println(idx);
             wd.get(url);
 
             Position position = scrapePosition(wd);
@@ -132,6 +129,7 @@ public class solution {
         }
     }
 
+    //Convert data into JSON format and write to json file
     @VisibleForTesting
     protected void createJSON(){
         JSONObject json = new JSONObject();
@@ -152,21 +150,17 @@ public class solution {
                 positionJsonList.add(curPos);
             }
 
-
             json.put(dept,positionJsonList);
         }
-
-
 
 
         try(FileWriter writer = new FileWriter("solution.json")){
             String jsonString = structuredJson.toJson(json);
             writer.write(jsonString);
-            //writer.write(json.toJSONString());
             writer.flush();
         } catch(IOException e)
         {}
-        System.out.println(json);
+
     }
 
     protected void quitWebDrivers(){
@@ -175,16 +169,15 @@ public class solution {
             wd.quit();
         }
     }
-    protected void runDeptDriver() throws InterruptedException {
+    protected void runDeptDriver(){
 
         for(int i = 1; i <= departmentSize;i++){
             WebDriver wd = departmentDrivers.get(i-1);
-            //wd.get("https://www.cermati.com/karir");
             accessPosition(wd,i);
         }
 
     }
-    public void run() throws InterruptedException {
+    public void run(){
         collectDepartmentDrivers();
         runDeptDriver();
         createJSON();

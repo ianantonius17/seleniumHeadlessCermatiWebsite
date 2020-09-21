@@ -2,6 +2,24 @@
   "Engineering": [
     {
       "qualification": [
+        "Bachelor’s Degree in Computer Science or related field, or equivalent experience - Proficiency in at least one programming language such as Java, Javascript, Python, Ruby, or Go",
+        "Proficiency with Linux systems administration, computer networking, and automation tools such as Ansible, Chef, Puppet, or Terraform",
+        "Knowledge in systems security, especially in the context of software development, network design, and cloud system operations",
+        "Having experience and familiarity with cloud platforms such as AWS, Alibaba Cloud, or GCP is preferable"
+      ],
+      "posted by": "Aldo Winata",
+      "description": [
+        "Designing company-wide infrastructure platform systems architecture, writing stable and readable code for the infrastructure components, and automating infrastructure operation tasks",
+        "Managing Cermati’s infrastructure environment consisting of infrastructure for multiple product lines, while improving the process and security of the overall system",
+        "Contributing to the standardization of infrastructure design and operations to comply with internationally-recognized standards (ISO, PCI-DSS, etc)",
+        "Helping the company to adopt industry best practices in infrastructure platform design and implementation (containerization, automation, etc)",
+        "This is a full time job and not an internship position"
+      ],
+      "location": "Central Jakarta, Central Jakarta City, Jakarta, Indonesia",
+      "title": "Software Engineer  - Infrastructure"
+    },
+    {
+      "qualification": [
         "S1 degree with good algorithm \u0026 problem solving skills.",
         "Knowledge on how to build scalable system as well as maintainable system ",
         "Excellent understanding with at least one of the following languages: NodeJS, Golang, Java, Python ",

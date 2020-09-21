@@ -1,5 +1,7 @@
-<suite name="Test-method Suite" parallel="tests" thread-count="3" >
-    <test name="Test-method test" group-by-instances="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test-method Suite" parallel="methods" thread-count="6" >
+    <test name="Test-method test" thread-count = "6">
         <classes>
             <class name="com.company.solutionTest" />
         </classes>
