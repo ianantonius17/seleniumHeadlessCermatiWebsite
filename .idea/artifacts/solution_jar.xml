@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="webScrappingCermati:jar">
+  <artifact type="jar" name="solution:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/webScrappingCermati_jar</output-path>
-    <root id="archive" name="webScrappingCermati.jar">
+    <root id="archive" name="solution.jar">
       <element id="module-output" name="webScrappingCermati" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/byte-buddy-1.8.15.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/commons-exec-1.3.jar" path-in-jar="/" />

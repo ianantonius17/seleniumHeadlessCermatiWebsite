@@ -8,9 +8,13 @@ based on Java with Selenium Webdriver and run with ChromeDriver (headless).
 JSON formatters are used to create and structure JSON object using JSON simple
 and Gson to help create well structured JSON object.
 
+jar file is located at **webScrappingCermati -> out -> artifacts -> solution_jar
+-> solution.jar**. When running the program through jar file , solution.json
+will be created inside the solution_jar folder.
+
 Note:
 to run this program path to chrome driver might need to be adjusted depending
-of the Operating System used. This program is created in Mac OS and for most
-cases the chrome driver is located at /usr/local/bin/chromedriver. Some
+of the Operating System used. **This program is created in Mac OS and for most
+cases the chrome driver is located at /usr/local/bin/chromedriver**. Some
 adjustment need to be done if chrome driver is located at different location
 or the program is run with different operating system.

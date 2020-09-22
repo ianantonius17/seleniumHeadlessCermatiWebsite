@@ -120,7 +120,6 @@ public class solution {
             webEl = webEl.findElement(By.tagName("a"));
             String url = webEl.getAttribute("href");
             wd.get(url);
-
             Position position = scrapePosition(wd);
             String department = departmentName.get(idx-1);
 
